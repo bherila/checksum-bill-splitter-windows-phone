@@ -1,0 +1,123 @@
+﻿<phone:PhoneApplicationPage
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:UI="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI"
+    x:Class="Splitty.MainPage"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+	<phone:Pivot Name="pivot" HorizontalAlignment="Left" Height="758" Margin="0,0,0,0" Title="CheckSum bill splitter" VerticalAlignment="Top" Width="470">
+		<phone:PivotItem CacheMode="{x:Null}" Header="people">
+			<phone:PivotItem.RenderTransform>
+				<TranslateTransform/>
+			</phone:PivotItem.RenderTransform>
+			<ScrollViewer>
+				<StackPanel x:Name="peopleList">
+					<TextBlock TextWrapping="Wrap" Text="First, add the right number of people to split this bill -- including yourself, if applicable. You can enter names for them if you'd like."/>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="50*"></ColumnDefinition>
+							<ColumnDefinition Width="50*"></ColumnDefinition>
+						</Grid.ColumnDefinitions>
+						<Button Grid.Column="0" Content="Add person" Click="Button_Click"/>
+						<Button Grid.Column="1" Content="Add items >" IsEnabled="False" Name="btnPeopleNext" />
+					</Grid>
+					<UI:AdControl ApplicationId="84edbe1b-8052-438d-b128-8009cbd95ef5" AdUnitId="150918" Height="80" Width="480" Margin="-10,0,0,0" Background="#FFE00000" IsAutoCollapseEnabled="True"/>
+				</StackPanel>
+			</ScrollViewer>
+		</phone:PivotItem>
+		<phone:PivotItem CacheMode="{x:Null}" Header="add items">
+			<phone:PivotItem.RenderTransform>
+				<TranslateTransform/>
+			</phone:PivotItem.RenderTransform>
+			<ScrollViewer>
+				<StackPanel>
+					<TextBlock x:Name="lblAddItems" TextWrapping="Wrap" Text="Next, add each item and its cost. Choose who shares each cost you enter by checking the box next to at least one name. If you want to split the entire bill evenly, just add the pre-tax total as a single item here. "/>
+					<StackPanel x:Name="itemListItems"></StackPanel>
+					<TextBox Height="72" TextWrapping="Wrap" Text="Amount" GotFocus="amt_gotfocus" x:Name="txtAmt" />
+					<StackPanel x:Name="itemListPeople"></StackPanel>
+					<Button Content="Add item" x:Name="btnAddItem" Click="btnAddItem_Click"/>
+				</StackPanel>
+			</ScrollViewer>
+		</phone:PivotItem>
+		<phone:PivotItem CacheMode="{x:Null}" Header="add credits">
+			<phone:PivotItem.RenderTransform>
+				<TranslateTransform/>
+			</phone:PivotItem.RenderTransform>
+			<ScrollViewer>
+				<StackPanel>
+					<TextBlock x:Name="lblGroupon" TextWrapping="Wrap" Text="Have a gift certificate or Groupon to share?  You can specify credits and amounts that people paid to get the credits. That way you can split the credit while still reimbursing the purchaser for his or her cost." VerticalAlignment="Top" />
+					<StackPanel x:Name="creditList">
+					</StackPanel>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+						</Grid.RowDefinitions>
+						<TextBlock  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Amount paid:" Margin="0,15,0,0" />
+						<TextBox    Grid.Column="0" Grid.Row="1" Height="72" TextWrapping="Wrap" Text="" x:Name="txtCreditCost"/>
+						<TextBlock  Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Bill credit:" Margin="0,15,0,0" />
+						<TextBox    Grid.Column="1" Grid.Row="1" Height="72" TextWrapping="Wrap" Text="" x:Name="txtCreditValue"/>
+						<StackPanel Grid.Column="0" Grid.Row="2" x:Name="creditListBuyers">
+							<TextBlock Text="paid by:" />
+						</StackPanel>
+						<StackPanel Grid.Column="1" Grid.Row="2" x:Name="creditListBeneficiaries">
+							<TextBlock Text="credit to:" />
+						</StackPanel>
+					</Grid>
+					<Button Content="Add credit" x:Name="btnAddCredit" Click="btnAddCredit_Click"/>
+				</StackPanel>
+			</ScrollViewer>
+		</phone:PivotItem>
+		<phone:PivotItem CacheMode="{x:Null}" Header="tax &amp; tip">
+			<phone:PivotItem.RenderTransform>
+				<TranslateTransform/>
+			</phone:PivotItem.RenderTransform>
+			<StackPanel>
+				<TextBlock TextWrapping="Wrap" Text="How much tax did the restaurant/venue charge? Enter the exact amount, not a percentage."/>
+				<TextBox x:Name="txtTaxAmount" Height="72" TextWrapping="NoWrap" Text="0"/>
+
+				<TextBlock Text="How much tip do you want to leave? Enter a percentage, e.g. '18'." TextWrapping="Wrap"/>
+				<TextBox x:Name="txtTipPercentage" Height="72" TextWrapping="Wrap" Text="18"/>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition />
+						<RowDefinition />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<TextBlock Grid.Row="0" Grid.Column="0" Text="15%" HorizontalAlignment="Center"/>
+					<TextBlock Grid.Row="0" Grid.Column="1" Text="18%" HorizontalAlignment="Center"/>
+					<TextBlock Grid.Row="0" Grid.Column="2" Text="20%" HorizontalAlignment="Center"/>
+					<Button x:Name="e15" Grid.Row="1" Grid.Column="0" Content="Choose"/>
+					<Button x:Name="e18" Grid.Row="1" Grid.Column="1" Content="Choose"/>
+					<Button x:Name="e20" Grid.Row="1" Grid.Column="2" Content="Choose"/>
+				</Grid>
+			</StackPanel>
+		</phone:PivotItem>
+		<phone:PivotItem CacheMode="{x:Null}" Header="summary">
+			<phone:PivotItem.RenderTransform>
+				<TranslateTransform/>
+			</phone:PivotItem.RenderTransform>
+			<StackPanel x:Name="spSummary">
+			</StackPanel>
+		</phone:PivotItem>
+	</phone:Pivot>
+
+</phone:PhoneApplicationPage>
